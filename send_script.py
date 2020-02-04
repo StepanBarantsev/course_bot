@@ -2,21 +2,28 @@ import telebot
 import schedule
 from settings import bot_token
 import time
+from faunahelper import FaunaHelper
+from faunadb.client import FaunaClient
+from settings import faunakey
 
 
-def job(bot):
-    with open('database.txt') as db:
-        number = db.read()
-        bot.send_message(821086704, 'Осталось дней: ' + number)
-        number = int(number)
-
-    with open('database.txt', 'w') as db:
-        db.write(str(number - 1))
+def job(bot, faunahelper):
+    students = faunahelper.get_all_students()
+    print(students)
+    for student in students:
+        try:
+            bot.send_message(student[0], 'Добрый день. Напоминаю, что до конца курса у Вас осталось %s дней: ' % str(student[1]))
+        except telebot.apihelper.ApiException:
+            bot.send_message(375764533, 'Это сообщение не про меня))))')
+            bot.send_message(375764533,
+                             'Добрый день. Напоминаю, что до конца курса у %s осталось %s дней: ' % (str(student[0]), str(student[1])))
+        faunahelper.decrement_days_by_telegram_id(student[0])
 
 
 bot = telebot.TeleBot(bot_token)
+faunahelper = FaunaHelper(FaunaClient(faunakey))
 
-schedule.every(30).seconds.do(job, bot)
+schedule.every(10).seconds.do(job, bot, faunahelper)
 
 while True:
     schedule.run_pending()
