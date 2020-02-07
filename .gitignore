@@ -133,3 +133,4 @@ dmypy.json
 .idea/modules.xml
 .idea/workspace.xml
 settings.py
+database.json

@@ -10,6 +10,10 @@ class FaunaHelper():
         result = self.clientf.query(query.get(query.match(query.index('students_by_telegram_id'), id)))
         return result['data']['days']
 
+    def get_lmsid_by_telegram_id(self, id):
+        result = self.clientf.query(query.get(query.match(query.index('students_by_telegram_id'), id)))
+        return result['data']['lmsid']
+
     def decrement_days_by_telegram_id(self, id):
         days = self.get_days_by_telegram_id(id)
         days -= 1
@@ -21,4 +25,5 @@ class FaunaHelper():
     def get_all_students(self):
         result = self.clientf.query(query.map_(query.lambda_("x", query.get(query.var('x'))), query.paginate(query.match((query.index('all_students'))))))
         students = result['data']
-        return [(student['data']['telegram_id'], student['data']['days']) for student in students]
+        students = [student['data'] for student in students]
+        return students
