@@ -30,7 +30,7 @@ def job(bot, faunahelper):
 bot = telebot.TeleBot(bot_token)
 faunahelper = FaunaHelper(FaunaClient(faunakey))
 
-schedule.every(3).seconds.do(job, bot, faunahelper)
+schedule.every(60).seconds.do(job, bot, faunahelper)
 
 while True:
     schedule.run_pending()
