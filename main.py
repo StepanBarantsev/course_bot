@@ -44,15 +44,14 @@ def getavailableblocks(message):
 
 
 @bot.message_handler(commands=['getsolutions'])
-def getavailableblocks(message):
+def getsolutions(message):
     chat_id = message.chat.id
     try:
         task = message.text.split()[1]
         lmsid = faunahelper.get_lmsid_by_telegram_id(chat_id)
         if lmshelper.is_task_completed(lmsid, task, 5):
-            with open('database.json') as db:
-                info = json.load(db)
-                bot.send_message(chat_id, info['solutions'][task])
+            info = faunahelper.get_info()
+            bot.send_message(chat_id, info['solutions'][task])
         else:
             bot.send_message(chat_id, "У Вас не выополнено данное задание на необходимый балл (5)")
     except NotFound:
