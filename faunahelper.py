@@ -1,5 +1,5 @@
 from faunadb import query
-
+import os
 
 class FaunaHelper():
 
@@ -27,3 +27,8 @@ class FaunaHelper():
         students = result['data']
         students = [student['data'] for student in students]
         return students
+
+    def get_info(self):
+        infonumber = os.environ['INFONUMBER']
+        result = self.clientf.query(query.get(query.ref(query.collection("Info"), infonumber)))
+        return result['data']

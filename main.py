@@ -30,15 +30,15 @@ def getavailableblocks(message):
     try:
         lmsid = faunahelper.get_lmsid_by_telegram_id(chat_id)
         max_payed_block = lmshelper.return_max_payed_block(lmsid)
-        with open('database.json') as db:
-            info = json.load(db)
-            bot.send_message(chat_id, info['blocks']['1'])
-            if max_payed_block > 1:
-                bot.send_message(chat_id, info['blocks']['2'])
-            if max_payed_block > 2:
-                bot.send_message(chat_id, info['blocks']['3'])
-            if max_payed_block > 3:
-                bot.send_message(chat_id, info['blocks']['4'])
+
+        info = faunahelper.get_info()
+        bot.send_message(chat_id, info['blocks']['1'])
+        if max_payed_block > 1:
+            bot.send_message(chat_id, info['blocks']['2'])
+        if max_payed_block > 2:
+            bot.send_message(chat_id, info['blocks']['3'])
+        if max_payed_block > 3:
+            bot.send_message(chat_id, info['blocks']['4'])
     except NotFound:
         bot.send_message(chat_id, "Извините, информации о Вас нет в базе данных.")
 
