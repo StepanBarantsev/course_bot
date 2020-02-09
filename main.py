@@ -1,12 +1,14 @@
 import telebot
-from settings import bot_token
 from faunahelper import FaunaHelper
 from faunadb.client import FaunaClient
-from settings import faunakey
 from faunadb.errors import NotFound
 from lmshelper import LmsHelper
-from settings import lmskey
 import json
+import os
+
+bot_token = os.environ['BOT_TOKEN']
+faunakey = os.environ['FAUNAKEY']
+lmskey = os.environ['LMSKEY']
 
 bot = telebot.TeleBot(bot_token)
 faunahelper = FaunaHelper(FaunaClient(faunakey))

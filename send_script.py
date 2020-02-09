@@ -1,11 +1,13 @@
 import telebot
 import schedule
-from settings import bot_token
 import time
 from faunahelper import FaunaHelper
 from faunadb.client import FaunaClient
-from settings import faunakey
 import datetime as d
+import os
+
+bot_token = os.environ['BOT_TOKEN']
+faunakey = os.environ['FAUNAKEY']
 
 
 def job(bot, faunahelper):
@@ -17,7 +19,7 @@ def job(bot, faunahelper):
                 bot.send_message(student['telegram_id'],
                                  '''Добрый день! У Вас закончилось время поддержки. Следует продлить время (600 рублей) или приобрести новый блок.
     Кроме того, Вы можете запросить у бота записи лекций и дз за текущий блок, чтобы продолжить прохождение курса самостоятельно.''')
-            elif student['days'] == 7 or student['days'] % 10 == 0 or student['days'] == 1:
+            elif (student['days'] == 7 or student['days'] % 10 == 0 or student['days'] == 1) and student['days'] > 0:
                 bot.send_message(student['telegram_id'], 'Добрый день. Напоминаю, что до конца курса у Вас осталось %s дней: ' % str(student['days']))
         except telebot.apihelper.ApiException:
             bot.send_message(375764533,

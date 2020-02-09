@@ -1,4 +1,3 @@
-from settings import lmskey
 import requests
 
 class LmsHelper:
