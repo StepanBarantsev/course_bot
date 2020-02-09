@@ -32,8 +32,9 @@ def job(bot, faunahelper):
 bot = telebot.TeleBot(bot_token)
 faunahelper = FaunaHelper(FaunaClient(faunakey))
 
-schedule.every(60).seconds.do(job, bot, faunahelper)
+schedule.every().day.at("12:00").do(job, bot, faunahelper)
 
 while True:
     schedule.run_pending()
-    time.sleep(1)
+    # 4 часа паузы
+    time.sleep(14400)
