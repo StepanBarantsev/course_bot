@@ -73,7 +73,7 @@ def getsolutions(message):
             info = faunahelper.get_info()
             bot.send_message(chat_id, info['solutions'][task])
         else:
-            bot.send_message(chat_id, "У Вас не выополнено данное задание на необходимый балл (5)")
+            bot.send_message(chat_id, "У Вас не выполнено данное задание на необходимый балл (5)")
     except NotFound:
         bot.send_message(chat_id, "Извините, информации о Вас нет в базе данных.")
     except IndexError:
