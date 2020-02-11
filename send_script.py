@@ -37,4 +37,4 @@ schedule.every().day.at("12:00").do(job, bot, faunahelper)
 while True:
     schedule.run_pending()
     # Сколько то часов паузы
-    time.sleep(3600 * os.environ['HOURS'])
+    time.sleep(3600 * int(os.environ['HOURS']))
