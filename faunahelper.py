@@ -32,3 +32,7 @@ class FaunaHelper():
         infonumber = os.environ['INFONUMBER']
         result = self.clientf.query(query.get(query.ref(query.collection("Info"), infonumber)))
         return result['data']
+
+    def freeze_student_by_telegram_id(self, telegram_id):
+        self.clientf.query(query.update(query.select('ref', query.get(query.match(query.index("students_by_telegram_id"), telegram_id))), {'data': {'freezed': True}}))
+
