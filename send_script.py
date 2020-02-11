@@ -23,7 +23,7 @@ def job(bot, faunahelper):
                 bot.send_message(student['telegram_id'], 'Добрый день. Напоминаю, что до конца курса у Вас осталось %s дней: ' % str(student['days']))
         except telebot.apihelper.ApiException:
             bot.send_message(375764533,
-                             'Добрый день. Напоминаю, что до конца курса у %s осталось %s дней: ' % (student['name'], str(student['days'])))
+                             'Добрый день. Напоминаю, что до конца курса у %s осталось %s дней!' % (student['name'], str(student['days'])))
         faunahelper.decrement_days_by_telegram_id(student['telegram_id'])
 
     bot.send_message(375764533, "Программа была запущена %s" % str(d.date.today()))
@@ -36,5 +36,5 @@ schedule.every().day.at("12:00").do(job, bot, faunahelper)
 
 while True:
     schedule.run_pending()
-    # 4 часа паузы
-    time.sleep(14400)
+    # Сколько то часов паузы
+    time.sleep(3600 * os.environ['HOURS'])

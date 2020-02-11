@@ -3,7 +3,6 @@ from faunahelper import FaunaHelper
 from faunadb.client import FaunaClient
 from faunadb.errors import NotFound
 from lmshelper import LmsHelper
-import json
 import os
 
 bot_token = os.environ['BOT_TOKEN']
@@ -13,6 +12,25 @@ lmskey = os.environ['LMSKEY']
 bot = telebot.TeleBot(bot_token)
 faunahelper = FaunaHelper(FaunaClient(faunakey))
 lmshelper = LmsHelper(lmskey)
+
+
+@bot.message_handler(commands=['start', 'help'])
+def getdays(message):
+    chat_id = message.chat.id
+    text = '''Добрый день, это бот Python для начинающих.
+Бот поддерживает следующие команды:
+/help -- получить справку по командам
+/getdays -- бот отдаст количество дней до окончания срока поддержки
+/getavailableblocks -- бот отдаст все блоки со всеми видеозаписями и дз, которые у Вас приобретены
+/getsolutions -- сама по себе команда без аргументов является некорреткной. Вызывать ее следует вот так: /getsolutions <Номер задания>, например:
+/getsolutions 1.1 чтобы получить решение по заданию 1.1. Решение будет Вам доступно только после того, как Вы сами прорешаете задачу на оценку 5.
+
+Ссылка на репозиторий, где содержится код бота: https://github.com/StepanBarantsev/course_bot
+
+Если с ботом какие-то проблемы или есть какие-то пожелания к нему, то пишите мне в личные сообщения в telegram
+
+При нахождении ошибки в решении задач, также присылайте в личные сообщения тест, который ронял бы решение. Программа будет исправлена, тест добавлен в проверяющую систему, а Вы получите дополнительное время поддержки.'''
+    bot.send_message(chat_id, text)
 
 
 @bot.message_handler(commands=['getdays'])
