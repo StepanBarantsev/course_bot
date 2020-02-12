@@ -37,12 +37,14 @@ faunahelper = FaunaHelper(FaunaClient(faunakey))
 
 # Строка для тестирования
 # schedule.every(10).seconds.do(job, bot, faunahelper)
-schedule.every().day.at("12:00").do(job, bot, faunahelper)
+
+# Немного изменяю време, потому что у фауны смещение относительно нас аж на 3 часа, поэтому когда у них наступит 10
+# У нас уже будет час дня!
+schedule.every().day.at("10:00").do(job, bot, faunahelper)
 
 while True:
     schedule.run_pending()
     # Сколько то часов паузы
-    bot.send_message(375764533, "Программа в рабочем состоянии %s. Время: %s" % (str(d.date.today()),  str(d.datetime.now().time())))
     time.sleep(3600 * int(os.environ['HOURS']))
     # Тоже строка для тестирования
     # time.sleep(1 * int(os.environ['HOURS']))
