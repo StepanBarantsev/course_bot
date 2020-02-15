@@ -36,3 +36,15 @@ class FaunaHelper():
     def freeze_student_by_telegram_id(self, telegram_id):
         self.clientf.query(query.update(query.select('ref', query.get(query.match(query.index("students_by_telegram_id"), telegram_id))), {'data': {'freezed': True}}))
 
+    # Для тех, у кого нет tg
+    def update_days_by_lms_id(self, id, new_number_of_days):
+        self.clientf.query(query.update(query.select('ref', query.get(query.match(query.index("students_by_lms_id"), id))), {'data': {'days': new_number_of_days}}))
+
+    def decrement_days_by_lms_id(self, id):
+        days = self.get_days_by_lms_id(id)
+        days -= 1
+        self.update_days_by_lms_id(id, days)
+
+    def get_days_by_lms_id(self, id):
+        result = self.clientf.query(query.get(query.match(query.index('students_by_lms_id'), id)))
+        return result['data']['days']

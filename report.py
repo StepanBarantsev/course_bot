@@ -25,4 +25,4 @@ def print_freezed_students(faunahelper):
         print('%s: (%s), %s' % (s['name'], s['days'], s['telegram_id']))
 
 
-print_non_freezed_students(faunahelper)
+print_all_students(faunahelper)
