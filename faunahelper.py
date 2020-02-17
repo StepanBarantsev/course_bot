@@ -48,3 +48,6 @@ class FaunaHelper():
     def get_days_by_lms_id(self, id):
         result = self.clientf.query(query.get(query.match(query.index('students_by_lms_id'), id)))
         return result['data']['days']
+
+    def freeze_student_by_lms_id(self, id):
+        self.clientf.query(query.update(query.select('ref', query.get(query.match(query.index("students_by_lms_id"), id))), {'data': {'freezed': True}}))

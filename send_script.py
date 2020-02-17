@@ -17,27 +17,31 @@ def job(bot, faunahelper):
         if not student['freezed']:
             if student['telegram_id'] != 375764533:
                 try:
-                    if student['days'] < 0:
-                        faunahelper.freeze_student_by_telegram_id(student['telegram_id'])
-                    elif student['days'] == 0:
-                        bot.send_message(student['telegram_id'],
-                                         '''Добрый день! У Вас закончилось время поддержки. Следует продлить время (600 рублей) или приобрести новый блок.
-    Кроме того, Вы можете запросить у бота записи лекций и дз за текущий блок, чтобы продолжить прохождение курса самостоятельно.''')
-                    elif student['days'] == 7 or student['days'] % 10 == 0 or student['days'] == 1:
-                        bot.send_message(student['telegram_id'], 'Добрый день. Напоминаю, что до конца курса у Вас осталось %s дней: ' % str(student['days']))
+                    try_to_send_message_to_student(bot, faunahelper, student)
                 except telebot.apihelper.ApiException:
-                    bot.send_message(375764533,
-                                     'Добрый день. Напоминаю, что до конца курса у %s осталось %s дней!' % (student['name'], str(student['days'])))
-                faunahelper.decrement_days_by_telegram_id(student['telegram_id'])
-            else:
-                bot.send_message(375764533,
-                                 'Добрый день. Напоминаю, что до конца курса у %s осталось %s дней!' % (
-                                 student['name'], str(student['days'])))
-                faunahelper.decrement_days_by_lms_id(student['lmsid'])
+                    pass
 
-
+            send_message_about_student_to_me(bot, faunahelper, student)
+            faunahelper.decrement_days_by_lms_id(student['lmsid'])
 
     bot.send_message(375764533, "Программа была запущена %s" % str(d.date.today()))
+
+
+def send_message_about_student_to_me(bot, faunahelper, student):
+    if student['days'] < 0:
+        faunahelper.freeze_student_by_lms_id(student['lmsid'])
+
+    bot.send_message(375764533, 'Добрый день. Напоминаю, что до конца курса у %s осталось %s дней!' % (student['name'], str(student['days'])))
+
+
+def try_to_send_message_to_student(bot, faunahelper, student):
+    if student['days'] == 0:
+        bot.send_message(student['telegram_id'],
+                         '''Добрый день! У Вас закончилось время поддержки. Следует продлить время (600 рублей) или приобрести новый блок.
+Кроме того, Вы можете запросить у бота записи лекций и дз за текущий блок, чтобы продолжить прохождение курса самостоятельно.''')
+    elif (student['days'] == 7 or student['days'] % 10 == 0 or student['days'] == 1) and student['days'] > 0:
+        bot.send_message(student['telegram_id'],
+                         'Добрый день. Напоминаю, что до конца курса у Вас осталось %s дней!' % str(student['days']))
 
 
 bot = telebot.TeleBot(bot_token)
