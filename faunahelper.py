@@ -23,7 +23,7 @@ class FaunaHelper():
         self.clientf.query(query.update(query.select('ref', query.get(query.match(query.index("students_by_telegram_id"), id))), {'data': {'days': new_number_of_days}}))
 
     def get_all_students(self):
-        result = self.clientf.query(query.map_(query.lambda_("x", query.get(query.var('x'))), query.paginate(query.match((query.index('all_students'))))))
+        result = self.clientf.query(query.map_(query.lambda_("x", query.get(query.var('x'))), query.paginate(query.match(query.index('all_students')), size=1000)))
         students = result['data']
         students = [student['data'] for student in students]
         return students
