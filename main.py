@@ -41,7 +41,7 @@ def getdays(message):
     try:
         bot.send_message(chat_id, "До конца курса осталось %s дней." % str(faunahelper.get_days_by_telegram_id(chat_id) + 1))
     except NotFound:
-        bot.send_message(chat_id, "Извините, информации о Вас нет в базе данных. Чтобы тренер мог добавить Вас в базу сообщите ему следующее число: {chat_id}")
+        bot.send_message(chat_id, f"Извините, информации о Вас нет в базе данных. Чтобы тренер мог добавить Вас в базу сообщите ему следующее число: {chat_id}")
 
 
 @bot.message_handler(commands=['getavailableblocks'])
@@ -60,7 +60,7 @@ def getavailableblocks(message):
         if max_payed_block > 3:
             bot.send_message(chat_id, info['blocks']['4'])
     except NotFound:
-        bot.send_message(chat_id, "Извините, информации о Вас нет в базе данных. Чтобы тренер мог добавить Вас в базу сообщите ему следующее число: {chat_id}")
+        bot.send_message(chat_id, f"Извините, информации о Вас нет в базе данных. Чтобы тренер мог добавить Вас в базу сообщите ему следующее число: {chat_id}")
 
 
 @bot.message_handler(commands=['getsolutions'])
