@@ -75,7 +75,7 @@ def getsolutions(message):
         else:
             bot.send_message(chat_id, "У Вас не выполнено данное задание на необходимый балл (5)")
     except NotFound:
-        bot.send_message(chat_id, "Извините, информации о Вас нет в базе данных.")
+        bot.send_message(chat_id, f"Извините, информации о Вас нет в базе данных. Чтобы тренер мог добавить Вас в базу сообщите ему следующее число: {chat_id}")
     except IndexError:
         bot.send_message(chat_id, "Аргумент не был введен! Введите аргумент после команды /getsolutions (номер задания, которое Вы хотиите посмотреть)")
     except TypeError:
