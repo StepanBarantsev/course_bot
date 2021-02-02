@@ -37,7 +37,7 @@ def send_message_about_student_to_me(bot, faunahelper, student):
 def try_to_send_message_to_student(bot, faunahelper, student):
     if student['days'] == 0:
         bot.send_message(student['telegram_id'],
-                         '''Добрый день! У Вас закончилось время поддержки. Следует продлить время (600 рублей) или приобрести новый блок.
+                         '''Добрый день! У Вас закончилось время поддержки. Следует продлить время (700 рублей) или приобрести новый блок.
 Кроме того, Вы можете запросить у бота записи лекций и дз за текущий блок, чтобы продолжить прохождение курса самостоятельно.''')
     elif (student['days'] == 7 or student['days'] % 10 == 0 or student['days'] == 1) and student['days'] > 0:
         bot.send_message(student['telegram_id'],
